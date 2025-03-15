@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Введення показників{% endblock %}
+
+{% block content %}
+<div class="container-fluid text-center">
+    <h2 class="p-3">Введення показників</h2>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form class="m-3" action="{{ url_for('input_page') }}" method="post">
+        <div class="mb-3">
+            <label for="meter_id">ID лічильника:</label>
+            <input type="text" id="meter_id" name="meter_id" value="{{ meter_id or '' }}" required> <br>
+        </div>
+        <div class="mb-3">
+            <label for="day_value">Денне споживання (кВт·год):</label>
+            <input type="number" id="day_value" name="day_value" min="0" step="0.01" value="{{ day_value or '' }}" required> <br>
+        </div>
+        <div class="mb-3">
+            <label for="night_value">Нічне споживання (кВт·год):</label>
+            <input type="number" id="night_value" name="night_value" min="0" step="0.01" value="{{ night_value or '' }}" required> <br>
+        </div>
+
+        {% if confirm %}
+        <button type="submit" class="btn btn-warning" name="confirm" value="true">⚠ Підтвердити</button>
+        {% else %}
+        <button type="submit" class="btn btn-success">Відправити</button>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

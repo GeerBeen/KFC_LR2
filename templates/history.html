@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+
+
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    <div class="container">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<h1 class="container-fluid text-center">Історія</h1>
+
+{% if history %}
+<table border="1" class="table table-striped ">
+    <tr class="sticky-top">
+        <th>Meter ID</th>
+        <th>Date</th>
+        <th>Previous Day</th>
+        <th>Previous Night</th>
+        <th>Current Day</th>
+        <th>Current Night</th>
+        <th>Used Day</th>
+        <th>Used Night</th>
+        <th>Cost Day</th>
+        <th>Cost Night</th>
+        <th>Total Cost</th>
+        <th>Corrected</th>
+    </tr>
+    {% for entry in history %}
+    <tr>
+        <td>{{ entry.meter_id }}</td>
+        <td>{{ entry.date_iso8601 }}</td>
+        <td>{{ entry.prev_day }}</td>
+        <td>{{ entry.prev_night }}</td>
+        <td>{{ entry.current_day }}</td>
+        <td>{{ entry.current_night }}</td>
+        <td>{{ entry.used_day }}</td>
+        <td>{{ entry.used_night }}</td>
+        <td>{{ entry.cost_day }}</td>
+        <td>{{ entry.cost_night }}</td>
+        <td>{{ entry.total_cost }}</td>
+        <td>{{ "Yes" if entry.corrected else "No" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p class="container-fluid text-center" >Історія відстуня.</p>
+{% endif %}
+
+{% endblock %}
